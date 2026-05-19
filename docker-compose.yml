@@ -1,0 +1,8 @@
+service :
+  web:
+    build: ./Docker
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    command: flask run --host=0.0.0.0
