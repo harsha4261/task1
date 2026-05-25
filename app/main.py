@@ -3,9 +3,11 @@ from fastapi.params import Body
 from pydantic import BaseModel
 from typing import Optional
 from random import randrange
-from .models import Post as DBPost  
+from .models import Post as DBPost, Base
 from .database import get_db, engine, SessionLocal
 from sqlalchemy.orm import Session
+
+# Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -16,7 +18,7 @@ class PostCreate(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World this is harsha"}
+    return {"message": "hello this about the task using fastapi develop a “post” application that can perform CRUD operation like create post and make use of SQlalchmey done by using fastapi and postgresql database and also use pydantic for data validation and also use alembic for database migration."}
 
 @app.get("/posts")
 async def get_post(db: Session = Depends(get_db)):
@@ -34,7 +36,7 @@ async def create_posts(post: PostCreate, db: Session = Depends(get_db)):
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
-    return {"data": new_post}
+    return new_post
 
 @app.get("/posts/latest")
 async def get_latest_post(db: Session = Depends(get_db)):
